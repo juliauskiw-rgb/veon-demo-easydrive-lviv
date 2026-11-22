@@ -1,0 +1,64 @@
+---
+import Base from "../layouts/Base.astro";
+import "../styles/site.css";
+import Header from "../components/Header.astro";
+import RouteRail from "../components/RouteRail.astro";
+import Hero from "../components/Hero.astro";
+import Categories from "../components/Categories.astro";
+import Branches from "../components/Branches.astro";
+import Theory from "../components/Theory.astro";
+import Practice from "../components/Practice.astro";
+import Services from "../components/Services.astro";
+import Finish from "../components/Finish.astro";
+import Footer from "../components/Footer.astro";
+import CallBar from "../components/CallBar.astro";
+import geoCyr from "../assets/fonts/geologica-cyrillic-standard-normal.woff2?url";
+import { branches, phones, email, hours, socials, mapUrl } from "../data/site";
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const title = "Автошкола у Львові — курси водіння A, B, C | EasyDrive";
+const description = "Автошкола EasyDrive у Львові: категорії A, A1, B, C, C1, 6 філій, вечірні, дистанційні групи й вихідного дня. Запис за телефоном (098) 07-07-076.";
+
+// DrivingSchool markup (concept.md § SEO главной); no AggregateRating: the rating is not verified.
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "DrivingSchool",
+  name: "EasyDrive",
+  description,
+  telephone: phones.map((p) => p.full),
+  email,
+  areaServed: ["Львів", "Винники", "Рясне"],
+  hasMap: mapUrl,
+  sameAs: [socials.instagram.url, socials.facebook.url, socials.tiktok.url],
+  location: branches.map((b) => ({
+    "@type": "Place",
+    name: `EasyDrive, ${b.town}, ${b.street}`,
+    address: { "@type": "PostalAddress", streetAddress: b.street, addressLocality: b.locality, addressCountry: "UA" },
+    openingHours: hours.schema,
+  })),
+};
+---
+<Base lang="uk" title={title} description={description}>
+  <Fragment slot="head">
+    <link rel="icon" type="image/png" sizes="32x32" href={`${base}favicon-32.png`} />
+    <link rel="apple-touch-icon" href={`${base}apple-touch-icon.png`} />
+    <link rel="preload" href={geoCyr} as="font" type="font/woff2" crossorigin />
+    <meta name="theme-color" content="#FFE03C" />
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+  <Header slot="header" />
+  <RouteRail />
+  <Hero />
+  <Categories />
+  <Branches />
+  <Theory />
+  <Practice />
+  <Services />
+  <Finish />
+  <Footer slot="footer" />
+  <CallBar slot="footer" />
+</Base>
+
+<script>
+  import "../scripts/home.ts";
+</script>

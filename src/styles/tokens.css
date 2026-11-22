@@ -1,0 +1,123 @@
+/* Hallmark · shape: route strip, a staged page of five road segments · genre: editorial · theme: custom · job: join · idea: "Шлях до посвідчення як розмічена смуга: жовта розмітка EasyDrive веде від вибору категорії через філію біля дому, теорію й практику до іспиту в ТСЦ, а на фініші один номер 07-07-076" · vibe: "дорожня розмітка, жовте поле, чесні факти, один номер"
+ * paper: #F7F7F6 · accent: #FFE03C · display: Geologica · body: IBM Plex Sans · hero: full-bleed yellow field, oblique Geologica headline on ten columns, one call button with two other operators, a dark road band with five anchor segments at its foot · nav: edge-aligned light bar, logo left, five anchors, phone button right; on phones Подзвонити and Меню as words · footer: index columns, light: six addresses, phones, socials with names, future pages inactive · imagery: client photos · surface: absolute white for the category panel only · signature: yellow dashed road marking that fills as you scroll, and 07-07-076 as the brand sign
+ * axes: paper/display/accent · posture: committed · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: imagery, only two usable client photos (fleet on the training ground), so the practice band carries the one large photograph and the rest of the page is type, rules and the road marking */
+/* Hallmark · waive 7b · --color-surface #FFFFFF in tokens.css · the white panel is a colour of the approved concept (veon-concept colors) and of the client's brand cards, priority 2 over Hallmark (docs/process/hallmark.md) */
+/* Hallmark · waive 23 · yellow covers about half of the first screen · posture committed: #FFE03C is the client's brand field (hero, finish), as approved in concept.md § 5, not a signal accent */
+/* Hallmark · waive 72 · details.th__docs bottom · the measured overflow is the closed <details> list, which is not rendered until the visitor opens it; open, it has 24 px padding */
+/* Hallmark · F4 answered · .btn--brand is the same primary recipe swapped for the asphalt band only, never beside .btn on one surface */
+/* Client design tokens from design/concept.md (veon-concept: colors, fonts). */
+@font-face {
+  font-family: "Geologica";
+  font-style: oblique 0deg 12deg;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../assets/fonts/geologica-cyrillic-standard-normal.woff2") format("woff2-variations");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Geologica";
+  font-style: oblique 0deg 12deg;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../assets/fonts/geologica-latin-standard-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/ibm-plex-sans-cyrillic-400-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/ibm-plex-sans-cyrillic-600-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Metric fallbacks of the same build, so the swap does not shift the layout much. */
+@font-face { font-family: "Geologica Fallback"; src: local("Arial"), local("Helvetica"); size-adjust: 104%; ascent-override: 92%; descent-override: 24%; }
+@font-face { font-family: "IBM Plex Sans Fallback"; src: local("Arial"), local("Helvetica"); size-adjust: 101%; ascent-override: 101%; descent-override: 27%; }
+
+:root {
+  /* Palette (concept.md § Палитра) */
+  --color-brand: #FFE03C;        /* yellow field, road marking, button on asphalt */
+  --color-ink: #1D1D1B;          /* text, asphalt, buttons on light and yellow */
+  --color-paper: #F7F7F6;        /* reading blocks */
+  --color-surface: #FFFFFF;      /* category panel */
+  --color-muted: #4F4F4F;        /* secondary text on paper and yellow */
+  --color-asphalt-2: #2A2A27;    /* rows and rules on asphalt */
+  --color-muted-dark: #B5B5B0;   /* secondary text on asphalt; hairlines on paper */
+
+  /* Base names used by global.css */
+  --color-bg: var(--color-paper);
+  --color-text: var(--color-ink);
+  --color-accent: var(--color-ink); /* focus ring on light and yellow; swapped to yellow on asphalt */
+  --color-rule: var(--color-muted-dark);
+
+  --font-display: "Geologica", "Geologica Fallback", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "IBM Plex Sans Fallback", system-ui, sans-serif;
+  --slant: oblique 8deg;
+
+  /* Type scale: 390 → 1440 (concept.md § Типографика) */
+  --text-number: clamp(3.5rem, 2.086rem + 5.79vw, 7rem);   /* 07-07-076 in finish */
+  --text-display: clamp(2.5rem, 1.729rem + 4.19vw, 5.5rem);  /* h1 */
+  --text-section: clamp(2.125rem, 1.6rem + 2.1vw, 3.5rem);   /* h2 */
+  --text-title: clamp(1.5rem, 1.314rem + 0.76vw, 2rem);      /* h3 */
+  --text-lead: clamp(1.125rem, 1.079rem + 0.19vw, 1.25rem);
+  --text-md: clamp(1rem, 0.977rem + 0.095vw, 1.0625rem);
+  --text-sm: 0.875rem;
+
+  /* Space: 8 px rhythm */
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+  --section-y: clamp(4.5rem, 3.1rem + 5.7vw, 8rem); /* 72 → 128 */
+  --space: clamp(1.25rem, 0.507rem + 3.05vw, 5rem);  /* page side margin 20 → 80 */
+  --container: 1280px;
+  --gap: 24px;
+
+  --radius: 6px;
+  --header-h: 72px;
+  --btn-h: 52px;
+  --rule-w: 2px;
+
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --ease-in-out: cubic-bezier(.6, 0, .3, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur: 600ms;
+
+  --z-raised: 10;
+  --z-sticky: 200;
+  --z-nav: 300;
+  --z-tooltip: 600;
+}
+@media (max-width: 60rem) {
+  :root { --header-h: 64px; --btn-h: 56px; }
+}

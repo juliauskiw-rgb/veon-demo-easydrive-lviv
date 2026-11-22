@@ -1,0 +1,161 @@
+---
+import Chevrons from "./Chevrons.astro";
+import FutureLink from "./FutureLink.astro";
+import { mainPhone, FUTURE } from "../data/site";
+
+// company.products_services, C-101, C-107. A and C prices are not shown (what 7 000 грн includes is unverified).
+const cats = [
+  {
+    key: "b", letter: "B", tab: "Легковий", title: "Категорія B: легковий автомобіль",
+    facts: [
+      ["Вік", "від 18 років"],
+      ["Тривалість", "3 місяці"],
+      ["Практика", "40 занять по 60 хв"],
+      ["Коробка передач", "механіка (МКПП) або автомат (АКПП)"],
+    ],
+    pay: true,
+  },
+  {
+    key: "a", letter: "A", tab: "Мотоцикл", title: "Категорія A: мотоцикл",
+    facts: [
+      ["Вік", "від 16 років"],
+      ["Тривалість", "3 місяці"],
+      ["Практика", "20 занять"],
+      ["Категорія A1", "умови навчання розповімо телефоном"],
+    ],
+    pay: false,
+  },
+  {
+    key: "c", letter: "C", tab: "Вантажний", title: "Категорія C: вантажний автомобіль",
+    facts: [
+      ["Вік", "від 18 років"],
+      ["Тривалість", "4,5 місяця"],
+      ["Практика", "40 занять"],
+      ["Категорія C1", "умови навчання розповімо телефоном"],
+    ],
+    pay: false,
+  },
+];
+const tabLabel = { b: "B", a: "A і A1", c: "C і C1" } as Record<string, string>;
+---
+<section id="categories" class="section section--paper cat" aria-labelledby="cat-title">
+  <div class="container">
+    <div class="head cat__head">
+      <h2 id="cat-title" class="h2">Оберіть категорію</h2>
+      <p class="lead muted">Вік, строк і кількість занять для кожної категорії.</p>
+    </div>
+
+    <div class="cat__switch" data-tabs>
+      <div class="cat__tabs" role="tablist" aria-label="Категорії навчання">
+        {cats.map((c, i) => (
+          <button class="cat__tab" type="button" role="tab" id={`tab-${c.key}`} aria-controls={`panel-${c.key}`}
+            aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>
+            <span class="cat__tab-l">{tabLabel[c.key]}</span>
+            <span class="cat__tab-s">{c.tab}</span>
+          </button>
+        ))}
+      </div>
+
+      {cats.map((c, i) => (
+        <div class:list={["cat__panel", i === 0 && "is-active"]} role="tabpanel" id={`panel-${c.key}`} aria-labelledby={`tab-${c.key}`} tabindex="0">
+          <div class="cat__letter" aria-hidden="true"><span>{c.letter}</span></div>
+          <div class="cat__body">
+            <h3 class="h3">{c.title}</h3>
+            <dl class="cat__facts">
+              {c.facts.map(([k, v]) => (<div class="cat__row"><dt>{k}</dt><dd>{v}</dd></div>))}
+              {c.pay ? (
+                <div class="cat__row cat__row--pay" data-rec="R-202">
+                  <dt>Перший внесок</dt>
+                  <dd><span class="cat__sum num">8 000 грн</span>
+                    <span class="cat__note small muted">Далі практика: 900 грн за годину з пальним. Повну вартість для вашої коробки передач назве менеджер.</span></dd>
+                </div>
+              ) : (
+                <div class="cat__row"><dt>Вартість</dt><dd>назве менеджер телефоном</dd></div>
+              )}
+            </dl>
+            <div class="cat__more">
+              <a class="tlink" href={`tel:${mainPhone.tel}`}><span>Записатися на {tabLabel[c.key]}: <span class="num nowrap">{mainPhone.short}</span></span><Chevrons /></a>
+              <FutureLink note={FUTURE} class="future-link--start">Детальніше про категорію {c.letter}</FutureLink>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+    <p class="cat__docs"><a class="tlink" href="#docs">Документи для вступу</a></p>
+  </div>
+</section>
+
+<style>
+  .cat__docs { margin: var(--space-md) 0 0; }
+  .cat__tabs { display: none; gap: var(--space-xs); margin-bottom: var(--space-md); }
+  :global(.js) .cat__tabs { display: flex; }
+  .cat__tab {
+    display: inline-flex; align-items: center; gap: var(--space-sm);
+    min-height: 56px; padding: 0 var(--space-lg);
+    border: 0; border-radius: var(--radius); cursor: pointer;
+    background: transparent; color: var(--color-ink); box-shadow: inset 0 0 0 2px var(--color-ink);
+    font: 400 var(--text-md)/1 var(--font-body); white-space: nowrap;
+    transition: background-color var(--dur-short) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+  }
+  .cat__tab-l { font-family: var(--font-display); font-style: var(--slant); font-weight: 800; font-size: var(--text-lead); line-height: 1; }
+  @media (hover: hover) { .cat__tab:hover { background: var(--color-brand); } }
+  .cat__tab:active { transform: scale(.98); }
+  .cat__tab[aria-selected="true"] { background: var(--color-ink); color: var(--color-brand); }
+  .cat__tab[aria-selected="true"] .cat__tab-s { color: var(--color-paper); }
+  .cat__tab:focus-visible { outline: 3px solid var(--color-ink); outline-offset: 3px; }
+
+  .cat__panel {
+    display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    background: var(--color-surface); border-radius: var(--radius); overflow: hidden;
+    margin-bottom: var(--space-lg);
+  }
+  :global(.js) .cat__panel { margin-bottom: 0; }
+  :global(.js) .cat__panel:not(.is-active) { display: none; }
+  :global(.cat__panel.is-entering) .cat__body { animation: panel-in 240ms var(--ease-out) both; }
+  @keyframes panel-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  .cat__panel:focus-visible { outline: 3px solid var(--color-ink); outline-offset: 3px; }
+
+  .cat__letter { position: relative; background: var(--color-brand); min-height: 22rem; overflow: hidden; }
+  .cat__letter span {
+    position: absolute; left: var(--space-lg); bottom: 0;
+    font-family: var(--font-display); font-style: var(--slant); font-weight: 800;
+    font-size: clamp(14rem, 8rem + 22vw, 32rem); line-height: .78; letter-spacing: -0.04em;
+    color: var(--color-ink); transform: translateY(16%);
+  }
+
+  .cat__body { display: grid; align-content: start; gap: var(--space-lg); padding: var(--space-2xl) var(--space-2xl) var(--space-xl); }
+  .cat__facts { margin: 0; }
+  .cat__row {
+    display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--space-md);
+    padding-block: var(--space-sm); border-top: 1px solid var(--color-rule);
+  }
+  .cat__row dt { color: var(--color-muted); }
+  .cat__row dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .cat__row--pay { padding-block: var(--space-md); }
+  .cat__row--pay dt { color: var(--color-ink); font-weight: 600; align-self: center; }
+  .cat__sum { display: block; font-family: var(--font-display); font-style: var(--slant); font-weight: 800; font-size: var(--text-title); line-height: 1.1; }
+  .cat__note { display: block; font-weight: 400; margin-top: var(--space-2xs); max-width: 44ch; }
+  .cat__more { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs) var(--space-xl); }
+
+  @media (max-width: 60rem) {
+    .cat__tabs { overflow-x: auto; }
+    .cat__tab { padding: 0 var(--space-md); flex: 1 0 auto; justify-content: center; }
+    .cat__panel { grid-template-columns: minmax(0, 1fr); }
+    .cat__letter { min-height: 9rem; }
+    .cat__letter span { font-size: 13rem; left: var(--space-md); transform: translateY(30%); }
+    .cat__body { padding: var(--space-lg) var(--space-md) var(--space-lg); gap: var(--space-md); }
+    .cat__row { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--space-sm); }
+  }
+  @media (max-width: 23rem) {
+    .cat__row { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xs); }
+  }
+  @media (max-width: 40rem) {
+    .cat__tab-s { display: none; }
+    .cat__tab { flex: 1 1 0; padding: 0 var(--space-xs); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.cat__panel.is-entering) .cat__body { animation: none; }
+    .cat__tab { transition: none; }
+    .cat__tab:active { transform: none; }
+  }
+</style>

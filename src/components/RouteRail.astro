@@ -1,0 +1,42 @@
+---
+import { route } from "../data/site";
+---
+<!-- The route scale on wide screens: a narrow sticky column at the left edge, the current segment filled with yellow. -->
+<nav class="rail" aria-label="Етапи маршруту">
+  <ol role="list">
+    {route.map((r, i) => (
+      <li>
+        <a class="rail__seg" href={`#${r.id}`} data-progress={r.id}>
+          <span class="rail__bar" aria-hidden="true"><span class="rail__fill"></span></span>
+          <span class="rail__n num" aria-hidden="true">{i + 1}</span>
+          <span class="visually-hidden">Етап {i + 1}: {r.label}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .rail { display: none; }
+  @media (min-width: 100rem) {
+    .rail {
+      display: block; position: fixed; z-index: var(--z-raised);
+      left: var(--space-md); top: 50%; transform: translateY(-50%);
+    }
+    .rail ol { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-2xs); }
+    .rail__seg {
+      position: relative; display: grid; grid-template-columns: auto auto; align-items: center; column-gap: var(--space-xs);
+      min-height: 56px; min-width: 44px; text-decoration: none; color: var(--color-ink);
+    }
+    .rail__bar { grid-row: 1 / 3; width: 4px; height: 48px; background: var(--color-ink); overflow: hidden; border-radius: 1px; }
+    .rail__fill { display: block; width: 100%; height: 100%; background: var(--color-brand); transform: scaleY(0); transform-origin: top; transition: transform 300ms var(--ease-out); }
+    :global(.rail__seg.is-done) .rail__fill { transform: scaleY(1); }
+    .rail__n { font: 600 var(--text-sm)/1 var(--font-body); padding: var(--space-2xs) var(--space-xs); border-radius: var(--radius); background: var(--color-paper); }
+    .rail__seg:hover .rail__n { box-shadow: inset 0 0 0 2px var(--color-ink); }
+    :global(.rail__seg[aria-current="step"]) .rail__n { background: var(--color-brand); color: var(--color-ink); box-shadow: inset 0 0 0 2px var(--color-ink); }
+    .rail__seg:focus-visible { outline: 3px solid var(--color-ink); outline-offset: 2px; border-radius: 2px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rail__fill { transition: none; }
+  }
+</style>

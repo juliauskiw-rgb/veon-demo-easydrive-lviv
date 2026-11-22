@@ -1,0 +1,70 @@
+---
+import { Picture } from "astro:assets";
+import Chevrons from "./Chevrons.astro";
+import fleet from "../assets/photos/fleet-ground.jpg";
+import { mainPhone } from "../data/site";
+// C-101, C-102: 900 грн / 60 хв з пальним, автотренажер 750 грн (МКПП). Full course price is not shown (C-I102).
+---
+<section id="practice" class="section section--asphalt pr" aria-labelledby="pr-title">
+  <div class="container">
+    <div class="pr__top">
+      <div class="pr__lead">
+        <h2 id="pr-title" class="h2">Практика: 40 занять по 60 хвилин</h2>
+        <p class="pr__big num" aria-hidden="true">40<span class="pr__x">×</span>60<span class="pr__unit">хв</span></p>
+      </div>
+      <dl class="pr__rows">
+        <div class="pr__row"><dt>Заняття з інструктором</dt><dd class="num">900 грн за годину, пальне включене</dd></div>
+        <div class="pr__row"><dt>Автотренажер</dt><dd class="num">750 грн, для навчання на механіці</dd></div>
+        <div class="pr__row"><dt>Де вчитеся</dt><dd>майданчик для навчання водіїв Arena Drive і міські маршрути</dd></div>
+        <div class="pr__row"><dt>Фініш</dt><dd>практичний іспит у сервісному центрі МВС</dd></div>
+      </dl>
+    </div>
+
+    <figure class="pr__photo" data-rec="R-206">
+      <Picture src={fleet} alt="Навчальні автомобілі EasyDrive з написом «Навчальний» на майданчику" formats={["avif", "webp"]}
+        widths={[480, 800, 1200, 1600]} sizes="(min-width: 80rem) 1280px, 100vw" loading="lazy" decoding="async" />
+      <figcaption class="small muted">Навчальні автомобілі EasyDrive на майданчику.</figcaption>
+    </figure>
+
+    <a class="btn btn--brand pr__call nowrap" href={`tel:${mainPhone.tel}`}><span>Записатися<span class="pr__wide"> на практику</span>: <span class="num">{mainPhone.short}</span></span><Chevrons /></a>
+  </div>
+</section>
+
+<style>
+  .pr__top { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: var(--space-2xl) var(--space-3xl); align-items: end; }
+  .pr__lead { display: grid; gap: var(--space-lg); }
+  .pr__big {
+    margin: 0; font-family: var(--font-display); font-style: var(--slant); font-weight: 800;
+    font-size: clamp(5rem, 2.6rem + 9.8vw, 12rem); line-height: .85; letter-spacing: -0.03em;
+    color: var(--color-brand); white-space: nowrap;
+  }
+  .pr__x { font-size: .55em; margin-inline: .08em; vertical-align: .18em; }
+  .pr__unit { font-size: .32em; margin-inline-start: .12em; color: var(--color-paper); letter-spacing: 0; }
+  .pr__rows { margin: 0; }
+  .pr__row { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--space-md); padding-block: var(--space-md); border-top: 1px solid var(--color-asphalt-2); }
+  .pr__row:last-child { border-bottom: 1px solid var(--color-asphalt-2); }
+  .pr__row dt { color: var(--color-muted-dark); }
+  .pr__row dd { margin: 0; font-weight: 600; color: var(--color-paper); }
+
+  .pr__photo { margin: var(--space-2xl) 0 var(--space-xl); }
+  .pr__photo :global(img) {
+    width: 100%; height: auto; aspect-ratio: 21 / 9; object-fit: cover; object-position: 50% 62%;
+    border-radius: var(--radius); background: var(--color-asphalt-2);
+  }
+  .pr__photo figcaption { margin-top: var(--space-sm); }
+  .pr__call { min-height: var(--btn-h); white-space: nowrap; }
+
+  @media (max-width: 60rem) {
+    .pr__top { grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); }
+    .pr__row { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xs); padding-block: var(--space-sm); }
+    .pr__photo { margin: var(--space-xl) calc(-1 * var(--space)) var(--space-lg); }
+    .pr__photo :global(img) { aspect-ratio: 4 / 3; border-radius: 0; }
+    .pr__photo figcaption { padding-inline: var(--space); }
+    .pr__call { width: 100%; }
+    .pr__wide { display: none; }
+  }
+  @media (max-width: 23rem) {
+    .pr__call { padding-inline: var(--space-sm); font-size: var(--text-sm); }
+    .pr__call :global(.chev) { display: none; }
+  }
+</style>

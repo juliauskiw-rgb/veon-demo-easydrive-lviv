@@ -1,0 +1,77 @@
+---
+import FutureLink from "./FutureLink.astro";
+import logo from "../assets/logo-easydrive.svg";
+import { branches, socials, phones, email, hours, FUTURE } from "../data/site";
+const soc = [socials.instagram, socials.facebook, socials.tiktok];
+const future = ["Ціни", "Розклад груп", "Питання та відповіді", "Блог", "Політика конфіденційності"];
+---
+<footer class="ft">
+  <div class="container ft__grid">
+    <div class="ft__brand">
+      <a class="ft__logo" href="#hero" aria-label="EasyDrive, автошкола: на початок сторінки">
+        <img src={logo.src} width="400" height="112" alt="" decoding="async" />
+      </a>
+      <p class="small muted">Автошкола безпечного водіння. Львів, Винники, Рясне.</p>
+    </div>
+
+    <div class="ft__col">
+      <h3 class="ft__h">Філії</h3>
+      <ul role="list" class="ft__list">
+        {branches.map((b) => <li>{b.town !== "Львів" ? `${b.town}, ` : ""}{b.street}</li>)}
+      </ul>
+      <p class="small muted">{hours.text}</p>
+    </div>
+
+    <div class="ft__col">
+      <h3 class="ft__h">Зв’язок</h3>
+      <ul role="list" class="ft__list">
+        {phones.map((p) => <li><a class="ft__link num" href={`tel:${p.tel}`}>{p.full}</a></li>)}
+        <li><a class="ft__link" href={`mailto:${email}`}>{email}</a></li>
+      </ul>
+    </div>
+
+    <div class="ft__col">
+      <h3 class="ft__h">Соцмережі</h3>
+      <ul role="list" class="ft__list" data-rec="R-204">
+        {soc.map((s) => <li><a class="ft__link" href={s.url} target="_blank" rel="noopener" aria-label={`${s.name} EasyDrive (нова вкладка)`}>{s.name}</a></li>)}
+      </ul>
+      <h3 class="ft__h ft__h--gap">Скоро на сайті</h3>
+      <ul role="list" class="ft__list">
+        {future.map((f) => <li><FutureLink note={FUTURE} class="future-link--start">{f}</FutureLink></li>)}
+      </ul>
+    </div>
+  </div>
+  <div class="container ft__base small muted">
+    <p>© 2026 EasyDrive</p>
+  </div>
+</footer>
+
+<style>
+  .ft { background: var(--color-paper); color: var(--color-ink); border-top: 1px solid var(--color-rule); padding-block: var(--space-2xl) var(--space-lg); }
+  .ft__grid { display: grid; grid-template-columns: minmax(0, 4fr) repeat(3, minmax(0, 3fr)); gap: var(--space-xl) var(--gap); }
+  .ft__logo { display: inline-flex; border-radius: 2px; }
+  .ft__logo img { width: 180px; height: auto; }
+  .ft__logo:focus-visible { outline: 3px solid var(--color-ink); outline-offset: 4px; }
+  .ft__brand p { margin: var(--space-md) 0 0; max-width: 28ch; }
+  .ft__h { margin: 0 0 var(--space-sm); font: 600 var(--text-md)/1.4 var(--font-body); }
+  .ft__h--gap { margin-top: var(--space-lg); }
+  .ft__list { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-2xs); }
+  .ft__col > p { margin: var(--space-sm) 0 0; }
+  .ft__link {
+    display: inline-flex; align-items: center; min-height: 36px;
+    text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; overflow-wrap: anywhere;
+  }
+  .ft__link:hover { text-decoration-thickness: 2px; }
+  .ft__link:focus-visible { outline: 3px solid var(--color-ink); outline-offset: 2px; border-radius: 2px; }
+  .ft__list :global(.future-link) { min-height: 36px; }
+  .ft__base { margin-top: var(--space-2xl); padding-top: var(--space-md); border-top: 1px solid var(--color-rule); }
+  .ft__base p { margin: 0; }
+  @media (max-width: 60rem) {
+    .ft__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .ft__brand { grid-column: 1 / -1; }
+    .ft__link, .ft__list :global(.future-link) { min-height: 44px; }
+  }
+  @media (max-width: 40rem) {
+    .ft__grid { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

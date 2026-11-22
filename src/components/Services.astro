@@ -1,0 +1,53 @@
+---
+import Chevrons from "./Chevrons.astro";
+import FutureLink from "./FutureLink.astro";
+import { mainPhone, FUTURE } from "../data/site";
+// company.products_services («Послуги без цін на головній»), C-107 сертифікати
+const items = [
+  { name: "Приватні уроки", line: "Окремі практичні заняття з інструктором." },
+  { name: "Перепідготовка", line: "Умови й формат перепідготовки скажемо телефоном." },
+  { name: "Експрес-курси водіння", line: "Прискорений формат навчання." },
+  { name: "Онлайн-навчання", line: "Теорія дистанційно, 1–2 місяці." },
+  { name: "Подарунковий сертифікат", line: "На навчання A1, A, B, C1, C або на практичні уроки." },
+];
+---
+<section id="services" class="section section--paper sv" aria-labelledby="sv-title">
+  <div class="container sv__grid">
+    <div class="sv__head">
+      <h2 id="sv-title" class="h2">Ще послуги EasyDrive</h2>
+      <a class="tlink" href={`tel:${mainPhone.tel}`}><span>Запитати про послугу: <span class="num nowrap">{mainPhone.short}</span></span><Chevrons /></a>
+    </div>
+    <ul class="sv__list" role="list">
+      {items.map((it) => (
+        <li class="sv__row">
+          <h3 class="sv__name">{it.name}</h3>
+          <p class="sv__line muted">{it.line}</p>
+          <FutureLink note={FUTURE} class="future-link--end">Детальніше<span class="visually-hidden">: {it.name}</span></FutureLink>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .sv__grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-xl) var(--space-3xl); align-items: start; }
+  .sv__head { display: grid; gap: var(--space-lg); justify-items: start; }
+  .sv__list { margin: 0; padding: 0; list-style: none; }
+  .sv__row {
+    display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) auto; gap: var(--space-md) var(--space-lg); align-items: baseline;
+    padding-block: var(--space-lg); border-top: 1px solid var(--color-rule);
+    transition: background-color var(--dur-short) var(--ease-out);
+  }
+  .sv__row:last-child { border-bottom: 1px solid var(--color-rule); }
+  .sv__name {
+    margin: 0; font-family: var(--font-display); font-style: var(--slant); font-weight: 800;
+    font-size: var(--text-title); line-height: 1.1; letter-spacing: -0.015em; text-wrap: balance;
+  }
+  .sv__line { margin: 0; }
+  @media (max-width: 60rem) {
+    .sv__grid { grid-template-columns: minmax(0, 1fr); }
+    .sv__row { grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-2xs) var(--space-md); padding-block: var(--space-md); }
+    .sv__line { grid-column: 1 / -1; grid-row: 2; }
+    .sv__name { font-size: var(--text-lead); }
+  }
+</style>

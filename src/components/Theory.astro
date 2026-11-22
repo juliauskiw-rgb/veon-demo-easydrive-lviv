@@ -1,0 +1,103 @@
+---
+import Chevrons from "./Chevrons.astro";
+import FutureLink from "./FutureLink.astro";
+import { mainPhone, hours, socials, FUTURE } from "../data/site";
+
+// company.products_services (формати груп, тривалість теорії); дні й години — знімки головної сайту клієнта; C-103 документи
+const groups = [
+  { name: "Вихідного дня", when: "субота, 10:00–13:30" },
+  { name: "Вечірня", when: "пн–ср, 18:30–21:30" },
+  { name: "Дистанційна", when: "неділя, 10:00–13:30" },
+  { name: "Ранкова", when: "години уточнюйте телефоном" },
+];
+const docs = ["копія паспорта", "копія ІПН", "медична довідка Ф-083", "2 фото 3,5×4,5 см"];
+---
+<section id="theory" class="section section--paper th" aria-labelledby="th-title">
+  <div class="container th__grid">
+    <div class="th__side">
+      <h2 id="th-title" class="h2">Теорія: онлайн або в класі</h2>
+      <dl class="th__len">
+        <div><dt>Онлайн</dt><dd class="num">1–2 <span>міс.</span></dd></div>
+        <div><dt>Очно</dt><dd class="num">≈2,5 <span>міс.</span></dd></div>
+      </dl>
+      <p class="muted th__after">Після теорії — теоретичний іспит у сервісному центрі МВС.</p>
+    </div>
+
+    <div class="th__main">
+      <h3 class="h3">Групи на вибір</h3>
+      <ul class="th__groups" role="list" data-rec="R-205">
+        {groups.map((g) => (<li class="th__group"><span class="th__gname">{g.name}</span><span class="th__when num">{g.when}</span></li>))}
+      </ul>
+      <p class="small muted th__note">Розклад вашої філії й найближчі старти груп скажемо телефоном.</p>
+
+      <details class="th__docs" id="docs">
+        <summary><span>Документи для вступу</span><span class="th__plus" aria-hidden="true"></span></summary>
+        <ul role="list">{docs.map((d) => <li>{d}</li>)}</ul>
+      </details>
+
+      <div class="th__cta" data-rec="R-208">
+        <a class="tlink" href={`tel:${mainPhone.tel}`}><span>Записатися в групу: <span class="num nowrap">{mainPhone.short}</span></span><Chevrons /></a>
+        <p class="small muted">Дзвінки {hours.text}. Увечері й у вихідні — <a class="th__ig" href={socials.instagram.url} target="_blank" rel="noopener">напишіть в Instagram</a>.</p>
+        <FutureLink note={FUTURE} class="future-link--start">Розклад груп</FutureLink>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .th { border-top: 1px solid var(--color-rule); }
+  .th__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-2xl) var(--space-3xl); align-items: start; }
+  .th__side { display: grid; gap: var(--space-xl); position: sticky; top: calc(var(--header-h) + var(--space-xl)); }
+  .th__len { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); margin: 0; }
+  .th__len div { border-top: var(--rule-w) solid var(--color-ink); padding-top: var(--space-sm); }
+  .th__len dt { color: var(--color-muted); }
+  .th__len dd {
+    margin: 0; font-family: var(--font-display); font-style: var(--slant); font-weight: 800;
+    font-size: var(--text-section); line-height: 1; letter-spacing: -0.02em; white-space: nowrap;
+  }
+  .th__len dd span { font-size: var(--text-title); }
+  .th__after { margin: 0; max-width: 36ch; }
+
+  .th__main { display: grid; gap: var(--space-lg); }
+  .th__groups { margin: 0; padding: 0; list-style: none; }
+  .th__group {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-md); align-items: baseline;
+    padding-block: var(--space-md); border-top: 1px solid var(--color-rule);
+  }
+  .th__group:last-child { border-bottom: 1px solid var(--color-rule); }
+  .th__gname { font-size: var(--text-lead); font-weight: 600; }
+  .th__when { color: var(--color-ink); }
+  .th__note { margin: 0; }
+
+  .th__docs { background: var(--color-surface); border-radius: var(--radius); }
+  .th__docs summary {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-md);
+    min-height: 56px; padding: 0 var(--space-lg); cursor: pointer; list-style: none; font-weight: 600;
+    border-radius: var(--radius);
+  }
+  .th__docs summary::-webkit-details-marker { display: none; }
+  .th__docs summary:hover { background: var(--color-brand); }
+  .th__docs summary:focus-visible { outline: 3px solid var(--color-ink); outline-offset: 3px; }
+  .th__plus { position: relative; width: var(--space-md); height: var(--space-md); flex-shrink: 0; }
+  .th__plus::before, .th__plus::after { content: ""; position: absolute; inset: 0; margin: auto; background: currentColor; width: 100%; height: var(--rule-w); transition: transform var(--dur-short) var(--ease-in-out); }
+  .th__plus::after { transform: rotate(90deg); }
+  .th__docs[open] .th__plus::after { transform: rotate(0deg); }
+  .th__docs ul { margin: 0; padding: 0 var(--space-lg) var(--space-lg) calc(var(--space-lg) + var(--space-md)); }
+  .th__docs li { padding-block: var(--space-2xs); }
+
+  .th__cta { display: grid; justify-items: start; gap: var(--space-2xs); }
+  .th__cta p { margin: 0; }
+  .th__ig { font-weight: 600; color: var(--color-ink); text-underline-offset: 3px; }
+  .th__ig:focus-visible { outline: 3px solid var(--color-ink); outline-offset: 2px; }
+
+  @media (max-width: 60rem) {
+    .th__grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); }
+    .th__side { position: static; gap: var(--space-lg); }
+    .th__group { padding-block: var(--space-sm); }
+    .th__gname { font-size: var(--text-md); }
+    .th__when { text-align: end; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .th__plus::before, .th__plus::after { transition: none; }
+  }
+</style>
